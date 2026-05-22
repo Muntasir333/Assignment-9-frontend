@@ -12,7 +12,7 @@ const Navbar = () => {
             <div className=''>
                 <h2 className='text-3xl font-bold'>SkillSphere</h2>
             </div>
-            <div>
+            <div className='bg-slate-500 text-black p-3 rounded-lg mt-3 md:mt-0'>
                 <ul className='flex justify-between items-center gap-3'>
                     <li className='font-bold'><Navlink href='/'>Home</Navlink></li>
                     <li className='font-bold'><Navlink href='/allfacilities'>All Facilities</Navlink></li>

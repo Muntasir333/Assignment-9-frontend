@@ -1,9 +1,23 @@
+import Image from 'next/image';
 import React from 'react';
 
-const Allfacilities = () => {
+const Allfacilities = async () => {
+    const res = await fetch ('http://localhost:5000/add-facility', {
+        method: 'GET'
+    });
+    const facilities = await res.json();
     return (
-        <div>
-            this is all facilities
+        <div className='container mx-auto p-4'>
+            <h1>All Facilities</h1>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+                {facilities.map((facility) => (
+                    <li key={facility._id}>
+                        <Image src={facility.image} alt={facility.facilityName} width={200} height={150} />
+                        <h2>{facility.facilityName}</h2>
+                        <p>{facility.description}</p>
+                    </li>
+                ))}
+            </div>
         </div>
     );
 };
