@@ -32,6 +32,7 @@ const tips = [
 const Tips = () => {
   return (
     <div className='container mx-auto'>
+       <h2 className='font-bold text-xl text-center p-4'>Meet Our Top Rated Facilities</h2>
       <div className='grid grid-cols-1 md:grid-cols-4 gap-6 mt-7'>
 
         {tips.map((tip) => (
