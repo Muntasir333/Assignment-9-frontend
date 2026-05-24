@@ -17,7 +17,8 @@ const Allfacilities = async () => {
                         <p>{facility.description}</p>
                         <a href={`/allfacilities/${facility._id}`}>
                             <button className='bg-blue-500 text-white px-4 py-2 rounded'>Book Now</button>
-                        </a>    
+                        </a>   
+                               
                     </li>
                 ))}
                

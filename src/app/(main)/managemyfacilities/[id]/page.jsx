@@ -26,7 +26,7 @@ const Page = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this facility?");
         if (!confirmDelete) return;
 
-        const res = await fetch(`http://localhost:5000/allfacilities/${id}`, {
+        const res = await fetch(`http://localhost:5000/add-facility/${id}`, {
             method: "DELETE",
         });
 
@@ -38,7 +38,7 @@ const Page = () => {
 
     // EDIT
     const handleEdit = () => {
-        window.location.href = `/edit-facility/${id}`;
+        window.location.href = `/Edit-facility/${id}`;
     };
 
     if (!facility) return <p>Loading...</p>;
