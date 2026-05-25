@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Bookingcart from '@/component/Bookingcart';
 
 const Details = () => {
 
@@ -91,6 +92,7 @@ const Details = () => {
                     </button>
 
                 </div>
+                <Bookingcart facility={facility}></Bookingcart>
 
             </div>
         </div>
