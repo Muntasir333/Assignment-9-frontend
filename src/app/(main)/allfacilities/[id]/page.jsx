@@ -33,7 +33,7 @@ const Details = () => {
         });
 
         if (res.ok) {
-            alert("Deleted successfully");
+            toast.success("Deleted successfully");
             window.location.href = "/";
         }
     };
@@ -46,7 +46,7 @@ const Details = () => {
     if (!facility) return <p>Loading...</p>;
 
     return (
-        <div>
+        <div className='min-h-screen bg-gray-100 py-10 flex items-center justify-center'>
             <div className='flex justify-center items-center flex-col bg-slate-200 rounded-3xl p-5 space-y-3 mt-5 container mx-auto'>
 
                 <img
@@ -90,11 +90,16 @@ const Details = () => {
                     <button onClick={handleDelete} className="btn btn-error">
                         Delete
                     </button>
+                    
 
                 </div>
-                <Bookingcart facility={facility}></Bookingcart>
+                   <div className='mt-10'>
+                <Bookingcart facility={facility} />
+            </div>
+               
 
             </div>
+         
         </div>
     );
 };

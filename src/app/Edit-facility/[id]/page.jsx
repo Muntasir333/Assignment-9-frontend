@@ -120,10 +120,29 @@ const EditFacility = () => {
                  </Select.Popover>
                </Select>
    
-               <TextField defaultValue={facility?.timeSlots} name="timeSlots" isRequired>
-                 <Label>Available Time Slots</Label>
-                 <Input className="bg-gray-100 w-full" placeholder="9:00 AM - 10:00 PM" />
-               </TextField>
+               <Select
+  defaultSelectedKeys={[facility?.availableTimeSlots?.[0]]}
+  name="timeSlot"
+  isRequired
+>
+  <Label>Available Time Slots</Label>
+
+  <Select.Trigger className="mt-1 w-full bg-gray-100 rounded-lg p-3 text-left">
+    <Select.Value placeholder="Select time slot" />
+  </Select.Trigger>
+
+  <Select.Popover>
+    <ListBox className="w-full bg-white border rounded-lg shadow-lg p-2">
+
+      {facility?.availableTimeSlots?.map((slot) => (
+        <ListBox.Item key={slot} id={slot}>
+          {slot}
+        </ListBox.Item>
+      ))}
+
+    </ListBox>
+  </Select.Popover>
+</Select>
                <TextField defaultValue={facility?.image} name="image" isRequired>
                  <Label>Image URL</Label>
                  <Input className="bg-gray-100 w-full" placeholder="https://..." />
