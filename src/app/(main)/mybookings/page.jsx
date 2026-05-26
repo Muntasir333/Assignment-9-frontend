@@ -9,8 +9,15 @@ const Mybookings = async () => {
     headers: await headers() // you need to pass the headers object.
     
 })
+const {token} =await auth.api.getToken({
+    headers: await headers()
+  });
 const user = session?.user
-    const res = await fetch(`http://localhost:5000/booking/${user?.id}`);
+    const res = await fetch(`http://localhost:5000/booking/${user?.id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     const bookings = await res.json();
     return (
         <div className=' container min-w-3xl mx-auto p-5'>

@@ -1,9 +1,17 @@
 import Image from 'next/image';
 import React from 'react';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 const Allfacilities = async () => {
+    const {token} =await auth.api.getToken({
+        headers: await headers()
+      });
     const res = await fetch ('http://localhost:5000/add-facility', {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     });
     const facilities = await res.json();
     return (

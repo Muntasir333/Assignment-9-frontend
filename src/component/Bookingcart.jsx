@@ -1,3 +1,4 @@
+'use client';
 import { authClient } from '@/lib/auth-client';
 import { Button, Card, ListBox, Select } from '@heroui/react';
 import {DateField, Label} from "@heroui/react";
@@ -25,10 +26,18 @@ const Bookingcart = ({ facility }) => {
             timeSlot: selectedTime,
             price: facility.pricePerHour // This should ideally come from user selection
         };
+        const tokenResponse = await authClient.token();
+        const token = tokenResponse?.data?.token;
+
+        if (!token) {
+            console.log("No token");
+            return;
+        }
         const res = await fetch('http://localhost:5000/booking', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(bookingData)
         });

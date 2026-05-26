@@ -38,12 +38,19 @@ const EditFacility = () => {
            const data = Object.fromEntries(formData.entries());
            console.log(data);
 
+           const token = await authClient.token();
+           console.log(token);
+
         const res = await fetch(`http://localhost:5000/add-facility/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token.data.token}`
+            
             },
+  
             body: JSON.stringify(data),
+
         });
 
         if (res.ok) {

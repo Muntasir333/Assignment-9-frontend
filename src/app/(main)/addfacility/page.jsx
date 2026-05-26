@@ -10,6 +10,7 @@ import {
   Select,
   ListBox
 } from '@heroui/react';
+import { authClient } from '@/lib/auth-client';
 
 const AddFacility = () => {
     const onSubmit = async (e) => {
@@ -18,10 +19,22 @@ const AddFacility = () => {
         const data = Object.fromEntries(formData.entries());
         console.log(data);
 
+
+        const tokenResponse = await authClient.token();
+        console.log(tokenResponse);
+            const token = tokenResponse?.data?.token;
+        
+            if (!token) {
+                console.log("No token");
+                return;
+            }
+
         const res = await fetch ('http://localhost:5000/add-facility', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            
             },
             body: JSON.stringify(data)
         });

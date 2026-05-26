@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link';
+import { authClient } from '@/lib/auth-client';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Bookingcart from '@/component/Bookingcart';
@@ -9,12 +10,25 @@ const Details = () => {
 
     const { id } = useParams();
 
+
     const [facility, setFacility] = useState(null);
 
     // FETCH DATA
     useEffect(() => {
-        const fetchData = async () => {
-            const res = await fetch(`http://localhost:5000/add-facility/${id}`);
+            const fetchData = async () => {
+    const tokenResponse = await authClient.token();
+    const token = tokenResponse?.data?.token;
+
+    if (!token) {
+        console.log("No token");
+        return;
+    }
+            const res = await fetch(`http://localhost:5000/add-facility/${id}`,
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             const data = await res.json();
             setFacility(data);
         };
@@ -22,14 +36,25 @@ const Details = () => {
         if (id) fetchData();
     }, [id]);
 
-    // DELETE
+  
+
     const handleDelete = async () => {
+        const tokenResponse = await authClient.token();
+    const token = tokenResponse?.data?.token;
+
+    if (!token) {
+        console.log("No token");
+        return;
+    }
         const confirmDelete = window.confirm("Are you sure you want to delete this facility?");
 
         if (!confirmDelete) return;
 
         const res = await fetch(`http://localhost:5000/add-facility/${id}`, {
             method: "DELETE",
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
         });
 
         if (res.ok) {
