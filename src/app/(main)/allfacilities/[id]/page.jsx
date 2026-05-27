@@ -71,16 +71,18 @@ const Details = () => {
     if (!facility) return <p>Loading...</p>;
 
     return (
-        <div className='min-h-screen bg-gray-100 py-10 flex items-center justify-center'>
-            <div className='flex justify-center items-center flex-col bg-slate-200 rounded-3xl p-5 space-y-3 mt-5 container mx-auto'>
-
-                <img
+        <div className='min-h-screen bg-gray-100 py-10 flex items-center justify-center container mx-auto'>
+            <div className='flex justify-center items-center gap-6 bg-slate-200 rounded-3xl p-5 space-y-3 mt-5 container mx-auto'>
+            <div className='flex flex-col items-start gap-4'>
+              <div className='relative w-full h-64 mb-4'>
+                  <img
                     className='mx-auto object-cover'
                     src={facility.image}
                     alt={facility.facilityName}
-                    width={300}
-                    height={200}
+                    width={400}
+                    height={400}
                 />
+              </div>
 
                 <h1 className='font-bold text-xl'>
                     {facility.facilityName}
@@ -118,6 +120,7 @@ const Details = () => {
                     
 
                 </div>
+            </div>
                    <div className='mt-10'>
                 <Bookingcart facility={facility} />
             </div>

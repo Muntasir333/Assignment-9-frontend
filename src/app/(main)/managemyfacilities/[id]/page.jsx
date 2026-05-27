@@ -1,72 +1,61 @@
-'use client';
+import { auth } from '@/lib/auth';
+import React from 'react';
+import { headers } from "next/headers";
+import Image from 'next/image';
+import {Bookingcancel}  from '@/component/Bookingcancel';
 
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
-const Page = () => {
-    const { id } = useParams();
-
-    const [facility, setFacility] = useState(null);
-
-    console.log("ID:", id);
-
-    // FETCH DATA
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await fetch(`http://localhost:5000/add-facility/${id}`);
-            const data = await res.json();
-            setFacility(data);
-        };
-
-        if (id) fetchData();
-    }, [id]);
-
-    // DELETE
-    const handleDelete = async () => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this facility?");
-        if (!confirmDelete) return;
-
-        const res = await fetch(`http://localhost:5000/add-facility/${id}`, {
-            method: "DELETE",
-        });
-
-        if (res.ok) {
-            alert("Deleted successfully");
-            window.location.href = "/";
+const Mybookings = async () => {
+    const session = await auth.api.getSession({
+    headers: await headers() // you need to pass the headers object.
+    
+})
+const {token} =await auth.api.getToken({
+    headers: await headers()
+  });
+const user = session?.user
+    const res = await fetch(`http://localhost:5000/booking/${user?.id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
         }
-    };
-
-    // EDIT
-    const handleEdit = () => {
-        window.location.href = `/Edit-facility/${id}`;
-    };
-
-    if (!facility) return <p>Loading...</p>;
-
+    });
+    const bookings = await res.json();
     return (
-        <div className="container mx-auto p-4">
+        <div className=' container min-w-3xl mx-auto p-5'>
+             <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {bookings?.map((booking) => (
+          <div
+            key={booking._id}
+            className="bg-white border shadow-md rounded-xl p-5 hover:shadow-lg transition"
+          >
+            <Image src={booking.facilityImage} alt={booking.facilityName} width={200} height={200} className="rounded-lg object-cover" />
+            <h2 className="text-xl font-semibold text-gray-800">
+              {booking.facilityName}
+            </h2>
 
-            <div className="bg-slate-200 p-5 rounded-xl">
-                <img src={facility.image} className="w-60" />
-                <h1 className="text-2xl font-bold">{facility.facilityName}</h1>
-                <p>{facility.description}</p>
-                <p>Location: {facility.location}</p>
-                <p>Price: ${facility.pricePerHour}</p>
-                <p>Capacity: {facility.capacity}</p>
+            <p className="text-gray-600 mt-3">
+              Date: <span className="font-medium">{booking.date}</span>
+            </p>
+
+            <p className="text-gray-600">
+              Time: <span className="font-medium">{booking.timeSlot}</span>
+            </p>
+
+            <p className="text-gray-600">
+              Price: <span className="font-medium">${booking.price}</span>
+            </p>
+
+            <div className="mt-4 flex justify-between items-center">
+              <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                Confirmed
+              </span>
+
+              <Bookingcancel bookingId={booking._id} />
             </div>
-
-            <div className="flex gap-4 mt-5">
-                <button onClick={handleEdit} className="btn btn-primary">
-                    Edit
-                </button>
-
-                <button onClick={handleDelete} className="btn btn-error">
-                    Delete
-                </button>
-            </div>
-
+          </div>
+        ))}
+      </div>
         </div>
     );
 };
 
-export default Page;
+export default Mybookings;

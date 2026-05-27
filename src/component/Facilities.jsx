@@ -5,14 +5,14 @@ import { headers } from 'next/headers';
  
 
 const Facilities = async () => {
-  const {token} =await auth.api.getToken({
-    headers: await headers()
-  });
+  // const {token} =await auth.api.getToken({
+  //   headers: await headers()
+  // });
     const res = await fetch ('http://localhost:5000/add-facility', {
         method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+        // headers: {
+        //     Authorization: `Bearer ${token}`
+        // }
     });
     const facilities = await res.json();
 
