@@ -3,8 +3,9 @@ import React from 'react';
 import { headers } from "next/headers";
 import Image from 'next/image';
 import {Bookingcancel}  from '@/component/Bookingcancel';
+import Link from 'next/link';
 
-const Mybookings = async () => {
+const managemyfacilities = async () => {
     const session = await auth.api.getSession({
     headers: await headers() // you need to pass the headers object.
     
@@ -12,6 +13,7 @@ const Mybookings = async () => {
 const {token} =await auth.api.getToken({
     headers: await headers()
   });
+  
 const user = session?.user
     const res = await fetch(`http://localhost:5000/booking/${user?.id}`, {
         headers: {
@@ -19,6 +21,7 @@ const user = session?.user
         }
     });
     const bookings = await res.json();
+   
     return (
         <div className=' container min-w-3xl mx-auto p-5'>
              <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -48,8 +51,15 @@ const user = session?.user
               <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
                 Confirmed
               </span>
+          <div className="flex gap-4 mt-5">
+              <Link href={`/Edit-facility/${booking._id}`}>
+  <button className="btn btn-primary rounded-3xl">
+    Edit
+  </button>
+</Link>
 
               <Bookingcancel bookingId={booking._id} />
+              </div>
             </div>
           </div>
         ))}
@@ -58,4 +68,4 @@ const user = session?.user
     );
 };
 
-export default Mybookings;
+export default managemyfacilities;
