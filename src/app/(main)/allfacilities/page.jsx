@@ -1,23 +1,48 @@
+'use client';
 import Image from 'next/image';
 import React from 'react';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
 
-const Allfacilities = async () => {
-    // const {token} =await auth.api.getToken({
-    //     headers: await headers()
-    //   });
-    const res = await fetch ('http://localhost:5000/add-facility', {
-        cache: 'no-store',
-        // headers: {
-        //     Authorization: `Bearer ${token}`
-        // }
-    });
-    const facilities = await res.json();
-    console.log('facilities:', facilities);
+import { useEffect, useState } from 'react';
+
+const Allfacilities = () => {
+      const [facilities, setFacilities] = useState([]);
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('');
+
+      useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        `http://localhost:5000/add-facility?search=${search}&sort=${sort}`
+      );
+      const data = await res.json();
+      setFacilities(data);
+    };
+
+    fetchData();
+  }, [search, sort]);
     return (
    <div className='container mx-auto p-4'>
             <h1>All Facilities</h1>
+           <input
+  suppressHydrationWarning
+  type="text"
+  placeholder="Search facilities..."
+  className="border p-2 w-full mb-8 rounded"
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
+ <select
+        className="border p-2 w-full mb-4 rounded"
+        value={sort}
+        onChange={(e) => setSort(e.target.value)}
+      >
+        <option value="">Default</option>
+        <option value="name_asc">Name A → Z</option>
+        <option value="name_desc">Name Z → A</option>
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+      </select>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
   {facilities.map((facility) => (
