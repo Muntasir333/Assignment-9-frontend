@@ -13,10 +13,15 @@ import {
 import { authClient } from '@/lib/auth-client';
 
 const AddFacility = () => {
+  const { data: session } = authClient.useSession();
+  
+   const ownerEmail = session?.user?.email || "";
+
     const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
+        data.ownerEmail = ownerEmail;
         console.log(data);
 
 
@@ -43,7 +48,6 @@ const AddFacility = () => {
         // Here you would typically send 'data' to your backend API
     }
 
-  const ownerEmail = "owner@example.com";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white flex justify-center p-8">
@@ -133,10 +137,11 @@ const AddFacility = () => {
               <TextArea className="bg-gray-100 w-full" placeholder="Describe your facility..." />
             </TextField>
 
-            <TextField>
-              <Label>Owner Email</Label>
-              <Input className="bg-gray-100 w-full" value={ownerEmail} disabled />
-            </TextField>
+           <Input
+  className="bg-gray-100 w-full"
+  value={ownerEmail}
+  readOnly
+/>
 
             <Button
               type="submit"

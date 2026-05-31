@@ -1,5 +1,6 @@
 'use client';
 
+import { authClient } from '@/lib/auth-client';
 import {
   Button,
   Input,
@@ -11,11 +12,16 @@ import {
 } from '@heroui/react';
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
 
 const EditFacility = () => {
+  
 
     const { id } = useParams();
       const router = useRouter();
+       const { data: session } = authClient.useSession();
+        
+         const ownerEmail = session?.user?.email || "";
 
   const [facility, setFacility] = useState(null);
 
@@ -29,6 +35,7 @@ const EditFacility = () => {
 
     if (id) fetchData();
   }, [id]);
+  
 
     
 
@@ -38,31 +45,33 @@ const EditFacility = () => {
            const data = Object.fromEntries(formData.entries());
            console.log(data);
 
-           const token = await authClient.token();
-           console.log(token);
+          const tokenResponse = await authClient.token();
+  const token = tokenResponse?.data?.token;
 
-        const res = await fetch(`http://localhost:5000/add-facility/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token.data.token}`
-            
-            },
-  
-            body: JSON.stringify(data),
+  if (!token) return console.log("No token");
 
-        });
+  const res = await fetch(`http://localhost:5000/add-facility/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
 
-        if (res.ok) {
-            alert('Updated successfully');
-        }
-    };
+  if (!res.ok) {
+    console.log(await res.text());
+    return;
+  }
+
+  toast.success("Updated successfully");
+  router.push("/");
+};
 
    
-           // Here you would typically send 'data' to your backend API
        
    
-     const ownerEmail = "owner@example.com";
+    
      if (!facility) return <p>Loading...</p>;
    
      return (
@@ -83,11 +92,12 @@ const EditFacility = () => {
        
                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
    
-  <TextField name="facilityName" isRequired>
-                   <Label>Facility Name</Label>
-                  <Input name="facilityName" defaultValue={facility?.facilityName}
-/>
-                 </TextField>
+   <Label>Facility Name</Label>
+  <Input
+    name="facilityName"
+    defaultValue={facility?.facilityName}
+    className="bg-gray-100 w-full"
+  />
    
                  <TextField defaultValue={facility?.location} name="location" isRequired>
                    <Label>Location</Label>
@@ -160,10 +170,12 @@ const EditFacility = () => {
                  <TextArea className="bg-gray-100 w-full" placeholder="Describe your facility..." />
                </TextField>
    
-               <TextField>
-                 <Label>Owner Email</Label>
-                 <Input className="bg-gray-100 w-full" value={ownerEmail} disabled />
-               </TextField>
+              
+                         <Input
+                className="bg-gray-100 w-full"
+                value={ownerEmail}
+                readOnly
+              />
    
                <Button
                  type="submit"
