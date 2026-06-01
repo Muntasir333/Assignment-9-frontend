@@ -12,7 +12,11 @@ import {
 } from '@heroui/react';
 import { authClient } from '@/lib/auth-client';
 
+import { Router } from 'next/router';
+import { useRouter } from 'next/navigation';
+
 const AddFacility = () => {
+  const router = useRouter();
   const { data: session } = authClient.useSession();
   
    const ownerEmail = session?.user?.email || "";
@@ -45,7 +49,7 @@ const AddFacility = () => {
         });
         const result = await res.json();
         console.log(result);
-        // Here you would typically send 'data' to your backend API
+         router.push("/managemyfacilities");
     }
 
 
