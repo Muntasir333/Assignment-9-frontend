@@ -7,7 +7,7 @@ const Footer = () => {
   <aside>
    
     <p className='text-4xl font-bold'>
-      SkillSphere</p>
+      SportNest</p>
       <br />
       <p className='text-xl font-bold'>Maijdee, Noakhali, Bangladesh
     </p>

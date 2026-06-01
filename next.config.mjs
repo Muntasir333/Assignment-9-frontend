@@ -10,7 +10,11 @@ const nextConfig = {
       },
         {
         protocol: 'https',
-        hostname: 'pixabay.com',
+        hostname: 'images.pixabay.com',
+      },
+        {
+        protocol: 'https',
+        hostname: '	media.istockphoto.com',
       },
     ]
   }
