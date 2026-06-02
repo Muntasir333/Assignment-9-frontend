@@ -13,7 +13,7 @@ const Banner = () => {
     <section className="bg-neutral text-white min-h-[80vh] flex items-center container mx-auto rounded-lg my-10 p-10 text-center">
       <div className="container mx-auto px-5 flex flex-col-reverse md:flex-row items-center justify-between gap-10 ">
 
-        {/* Left Content */}
+      
          <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -43,7 +43,7 @@ const Banner = () => {
           </div>
         </motion.div>
 
-        {/* Right Image */}
+        
         <div className="flex-1 flex justify-center flex-col items-center gap-5">
           
           <Image

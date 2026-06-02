@@ -6,14 +6,14 @@ import {Bookingcancel}  from '@/component/Bookingcancel';
 
 const Mybookings = async () => {
     const session = await auth.api.getSession({
-    headers: await headers() // you need to pass the headers object.
+    headers: await headers() 
     
 })
 const {token} =await auth.api.getToken({
     headers: await headers()
   });
 const user = session?.user
-    const res = await fetch(`http://localhost:5000/booking/${user?.id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

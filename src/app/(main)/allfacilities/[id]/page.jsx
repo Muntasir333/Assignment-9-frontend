@@ -12,8 +12,6 @@ const Details = () => {
 
 
     const [facility, setFacility] = useState(null);
-
-    // FETCH DATA
     useEffect(() => {
             const fetchData = async () => {
     const tokenResponse = await authClient.token();
@@ -23,7 +21,8 @@ const Details = () => {
         console.log("No token");
         return;
     }
-            const res = await fetch(`http://localhost:5000/add-facility/${id}`,
+    
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/add-facility/${id}`,
                 {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -50,7 +49,7 @@ const Details = () => {
 
         if (!confirmDelete) return;
 
-        const res = await fetch(`http://localhost:5000/add-facility/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/add-facility/${id}`, {
             method: "DELETE",
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -63,7 +62,7 @@ const Details = () => {
         }
     };
 
-    // EDIT
+
     const handleEdit = () => {
         window.location.href = `/Edit-facility/${id}`;
     };

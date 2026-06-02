@@ -25,10 +25,10 @@ const EditFacility = () => {
 
   const [facility, setFacility] = useState(null);
 
-  // FETCH DATA
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:5000/add-facility/${id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/add-facility/${id}`);
       const data = await res.json();
       setFacility(data);
     };
@@ -50,7 +50,7 @@ const EditFacility = () => {
 
   if (!token) return console.log("No token");
 
-  const res = await fetch(`http://localhost:5000/add-facility/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/add-facility/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

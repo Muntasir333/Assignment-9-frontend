@@ -6,11 +6,12 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Bookingcart = ({ facility }) => {
+  
    const { 
           data: session, 
-          isPending, //loading state
-          error, //error object
-          refetch //refetch the session
+          isPending, 
+          error, 
+          refetch 
       } = authClient.useSession()
       const user = session?.user;
 
@@ -18,6 +19,7 @@ const Bookingcart = ({ facility }) => {
       const [selectedTime, setSelectedTime] = useState(null);
       const handleBooking =async ()=>{
         const bookingData = {
+          
             userId: user.id,
             facilityId: facility._id,
             facilityImage: facility.image,
@@ -33,7 +35,8 @@ const Bookingcart = ({ facility }) => {
             console.log("No token");
             return;
         }
-        const res = await fetch('http://localhost:5000/booking', {
+        console.log("TOKEN:", token);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

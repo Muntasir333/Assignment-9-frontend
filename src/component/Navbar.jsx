@@ -10,15 +10,15 @@ import { Button } from '@heroui/react';
 const Navbar = () => {
     const { 
         data: session, 
-        isPending, //loading state
-        error, //error object
-        refetch //refetch the session
+        isPending, 
+        error, 
+        refetch 
     } = authClient.useSession()
     const user = session?.user;
 
     const handleLogout = async () => {
         await authClient.signOut();
-        refetch(); // Refetch session to update UI
+        refetch(); 
     }
    
     return (

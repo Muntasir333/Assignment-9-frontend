@@ -12,7 +12,7 @@ const Allfacilities = () => {
       useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        `http://localhost:5000/add-facility?search=${search}&sort=${sort}`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/add-facility?search=${search}&sort=${sort}`
       );
       const data = await res.json();
       setFacilities(data);
@@ -51,7 +51,7 @@ const Allfacilities = () => {
       className="border border-gray-300 p-4 rounded-lg flex flex-col"
     >
 
-      {/* IMAGE FIX */}
+    
       <div className="relative w-full h-48 mb-4">
         <img
           src={facility.image}
@@ -60,7 +60,7 @@ const Allfacilities = () => {
         />
       </div>
 
-      {/* TEXT */}
+      
       <div className="flex flex-col flex-1">
 
         <h2 className="text-lg font-semibold mb-2">
@@ -71,7 +71,7 @@ const Allfacilities = () => {
           {facility.description?.slice(0, 100)}...
         </p>
 
-        {/* BUTTON */}
+      
         <a href={`/allfacilities/${facility._id}`}>
           <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full mt-auto">
             See Details

@@ -2,7 +2,7 @@ import { auth } from '@/lib/auth';
 import { headers } from "next/headers";
 import Image from 'next/image';
 import Link from 'next/link';
-import { Bookingcancel } from '@/component/Bookingcancel';
+
 import Facilitydlt from '@/component/Facilitydlt';
 
 const Managemyfacilities = async () => {
@@ -11,7 +11,7 @@ const Managemyfacilities = async () => {
   });
 
   const res = await fetch(
-    `http://localhost:5000/my-facilities/${session?.user?.email}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/my-facilities/${session?.user?.email}`,
     { cache: "no-store" }
   );
 

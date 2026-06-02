@@ -12,7 +12,7 @@ export function Facilitydlt( {facilityId} ) {
         console.log("No token");
         return;
     }
-        const res = await fetch(`http://localhost:5000/facility/${facilityId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${facilityId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export function Facilitydlt( {facilityId} ) {
 
         if (res.ok) {
             toast.success("Facility deleted successfully");
-            window.location.reload(); // Refresh the page to reflect changes
+            window.location.reload(); 
         } else {
             toast.error("Failed to delete facility. Please try again.");
         }
